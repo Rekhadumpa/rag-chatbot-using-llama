@@ -7,3 +7,4 @@ vectorstore_db_faiss/
 *.pkl
 
 .env
+.ipynb_checkpoints/
