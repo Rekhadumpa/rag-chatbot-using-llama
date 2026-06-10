@@ -4,6 +4,9 @@ A Retrieval-Augmented Generation (RAG) chatbot that answers user queries using i
 ## Demo
 
 Built using LangChain, FAISS, HuggingFace Embeddings, Flask, and Ollama-powered Llama 3.2.
+## Screenshot
+
+![RAG Chatbot](screenshots/chatbot-ui.png)
 ## Features
 
 * PDF document ingestion
@@ -13,6 +16,14 @@ Built using LangChain, FAISS, HuggingFace Embeddings, Flask, and Ollama-powered 
 * Local LLM inference using Ollama (Llama 3.2)
 * Context-aware question answering
 * Flask-based web interface
+## Key Highlights
+
+* Built a Retrieval-Augmented Generation (RAG) chatbot for PDF-based question answering.
+* Used FAISS for semantic document retrieval.
+* Generated embeddings using HuggingFace sentence transformers.
+* Integrated Ollama-hosted Llama 3.2 for local inference.
+* Developed a Flask-based web interface for user interaction.
+
 
 ## Tech Stack
 
@@ -27,28 +38,22 @@ Built using LangChain, FAISS, HuggingFace Embeddings, Flask, and Ollama-powered 
 ## Project Workflow
 
 PDF Documents
-
-↓
+⬇️
 
 Text Chunking
-
-↓
+⬇️
 
 Embeddings Generation
-
-↓
+⬇️
 
 FAISS Vector Store
-
-↓
+⬇️
 
 Retriever
-
-↓
+⬇️
 
 Llama 3.2 (Ollama)
-
-↓
+⬇️
 
 Answer Generation
 
