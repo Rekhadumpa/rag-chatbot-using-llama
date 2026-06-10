@@ -1,7 +1,9 @@
 # PDF RAG Chatbot using LangChain and Ollama
 
 A Retrieval-Augmented Generation (RAG) chatbot that answers user queries using information retrieved from PDF documents.
+## Demo
 
+Built using LangChain, FAISS, HuggingFace Embeddings, Flask, and Ollama-powered Llama 3.2.
 ## Features
 
 * PDF document ingestion
