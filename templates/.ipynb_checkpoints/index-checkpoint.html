@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virinchi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        html {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Soft gradient background */
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            color: #4b4b4b;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #4b4b4b;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            border: 2px solid #ff7e5f;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: #feb47b;
+            box-shadow: 0 0 5px rgba(255, 126, 95, 0.8);
+        }
+        button {
+            background-color: #ff7e5f;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #feb47b;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .response {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            color: #333;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 1.2rem;
+        }
+        .spinner-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.4em;
+        }
+        .container img {
+            position: relative;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .text-center {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4b4b4b;
+        }
+        p {
+            font-size: 1.2rem;
+        }
+        /* Additional Responsive Styling */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <script>
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'block';
+        }
+
+        function hideSpinner() {
+            document.getElementById('spinner').style.display = 'none';
+        }
+
+        function clearResponse() {
+            document.getElementById('query').value = '';
+            document.getElementById('response').innerHTML = '';
+        }
+
+        async function submitQuery(event) {
+            event.preventDefault();
+            showSpinner();
+
+            const query = document.getElementById('query').value;
+            const responseContainer = document.getElementById('response');
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+
+                const result = await response.json(); // Expecting JSON response
+                hideSpinner();
+
+                if (response.ok) {
+                    responseContainer.innerHTML = `
+                        <h2>Response:</h2>
+                        <p>${result.result}</p>
+                    `;
+                } else {
+                    responseContainer.innerHTML = `<strong>Error:</strong> ${result.result}`;
+                }
+            } catch (error) {
+                hideSpinner();
+                responseContainer.innerHTML = `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', submitQuery);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/029/572/153/small/cute-robot-character-ai-generative-free-png.png" alt="Chatbot Icon" width="120px" height="120px">
+        <h1 class="text-center">Virinchi Q-fund AI Bot</h1>
+        <form>
+            <div class="form-group">
+                <label for="query" style="color: #333; font-weight: 600;">Enter your query:</label>
+                <input type="text" class="form-control" id="query" name="query" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ask</button>
+            <button type="button" class="btn btn-secondary" onclick="clearResponse()">Clear</button>
+        </form>
+
+        <div id="response" class="response"></div>
+    </div>
+
+    <div id="spinner" class="spinner-container">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</body>
+</html>

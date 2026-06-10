@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+
+vectorstore_db_faiss/
+
+*.faiss
+*.pkl
+
+.env
